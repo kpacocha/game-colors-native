@@ -37,10 +37,10 @@ export default class ColorsBoard extends React.Component {
   }
 
   __renderColorBoard() {
-    const colorsTab =  ['red', 'blue', 'black', 'yellow', 'green', 'grey', 'orange', 'pink'];
+    // const colorsTab =  ['red', 'blue', 'black', 'yellow', 'green', 'grey', 'orange', 'pink'];
     return (
       <View style={styles.colorBoard}>
-        {colorsTab.map(color => this.__renderSingleColor(color))}
+        {this.props.colorsTab.map(color => this.__renderSingleColor(color))}
       </View>
     );
   }

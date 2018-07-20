@@ -10,6 +10,7 @@ import {
 
 import ColorsBoard from '../../components/ColorsBoard/ColorsBoard'
 
+const COLORS_TAB =  ['red', 'blue', 'black', 'yellow', 'green', 'grey', 'orange', 'pink'];
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -17,15 +18,27 @@ export default class App extends React.Component {
       result: 0,
       maxResult: 0,
       wantedColor: this.__getRandomColor(),
+      colors: this.__shuffleArray(COLORS_TAB),
 
       name: 'L',
       modalVisible: false
     }
   }
 
+  __shuffleArray(a) {
+    const result = [...a];
+    var j, x, i;
+    for (i = a.length - 1; i > 0; i--) {
+        j = Math.floor(Math.random() * (i + 1));
+        x = result[i];
+        result[i] = result[j];
+        result[j] = x;
+    }
+    return result;
+}
+
   __getRandomColor() {
-    const colorsTab =  ['red', 'blue', 'black', 'yellow', 'green', 'grey', 'orange', 'pink'];
-    return colorsTab[Math.floor(Math.random()*colorsTab.length)]
+    return COLORS_TAB[Math.floor(Math.random()*COLORS_TAB.length)]
   }
 
   __changeResult = (toAdd) => {
@@ -40,7 +53,8 @@ export default class App extends React.Component {
     if (color === this.state.wantedColor) {
       this.setState({
         result: this.state.result + 1,
-        wantedColor: this.__getRandomColor()
+        wantedColor: this.__getRandomColor(),
+        colors: this.__shuffleArray(COLORS_TAB)
       })
     } else {
       this.__endGame();
@@ -68,7 +82,8 @@ export default class App extends React.Component {
         <Text>Result: {this.state.result}</Text>
         <Text>Max result: {this.state.maxResult}</Text>
         {this.__renderWantedColor()}
-        <ColorsBoard onClickSingleColor={(color) => this.__onClickSingleColor(color)}/>
+        <ColorsBoard colorsTab={this.state.colors}
+                     onClickSingleColor={(color) => this.__onClickSingleColor(color)}/>
 
         <TouchableHighlight
           onPress={() => {
